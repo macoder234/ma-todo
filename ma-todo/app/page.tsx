@@ -1,9 +1,20 @@
 "use client"
 import useSWR, { mutate } from 'swr';
 import { fetchAllLists, createList, deleteList, createTaskForList, deleteTaskFromList } from './api';
-import { DialogDemo } from './dialog';
+import { CustomDialog } from './customComponents/custom-dialog';
 import { ListWithTasks, Task } from './types';
 import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Label } from "@/components/ui/label"
+import { FileMinusIcon } from '@radix-ui/react-icons';
+
 
 export default function Home() {
   const { data: lists, error } = useSWR<ListWithTasks[]>('/api/lists', fetchAllLists);
@@ -41,32 +52,43 @@ export default function Home() {
 
   return (
     <div>
-      <DialogDemo
+      <CustomDialog
         headerOfDialog="Add New List"
         bodyOfDialog="Provide the name of the new list"
         labelOfString="List Name"
         onSave={handleCreateList}
       />
       {lists.map((list) => (
-        <div key={list.id} style={{ border: '1px solid #ccc', margin: '10px', padding: '10px' }}>
-          <h2>{list.name}</h2>
-          <ul>
-            {list.tasks.map((task) => (
-              <li key={task.id}>
-                {task.description}
-                <Button onClick={() => handleDeleteTaskFromList(list.name, task.id)}>Delete Task</Button>
-              </li>
-            ))}
-          </ul>
-          <DialogDemo
-            headerOfDialog="Add New Task"
-            bodyOfDialog="Provide the description for the task"
-            labelOfString="Task Description"
-            onSave={(value) => handleCreateTaskForList(list.name, value)}
-          />
-          <Button onClick={() => handleDeleteList(list.name)}>Delete List</Button>
-        </div>
+        <Card key={list.id} className="w-[350px]">
+          <CardHeader>
+            <CardTitle>{list.name}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul>
+              {list.tasks.map((task) => (
+                <li key={task.id}>
+                  {task.description}
+                  <Button variant="destructive" size="icon" onClick={() => handleDeleteTaskFromList(list.name, task.id)}>
+                    <FileMinusIcon className="h-4 w-4" />
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+          <CardFooter className="flex justify-between">
+            <CustomDialog
+              headerOfDialog="Add New Task"
+              bodyOfDialog="Provide the description for the task"
+              labelOfString="Task Description"
+              onSave={(value) => handleCreateTaskForList(list.name, value)}
+            />
+            <Button variant="destructive" onClick={() => handleDeleteList(list.name)}>
+              Delete List
+            </Button>
+          </CardFooter>
+        </Card>
       ))}
     </div>
   );
 }
+
