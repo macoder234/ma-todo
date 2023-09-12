@@ -1,7 +1,10 @@
 "use client"
+import React from 'react';
+import Masonry from 'react-masonry-css';
 import useSWR, { mutate } from 'swr';
 import { fetchAllLists, createList, deleteList, createTaskForList, deleteTaskFromList } from './api';
-import { CustomDialog } from './customComponents/custom-dialog';
+import { TaskCustomDialog } from './customComponents/taskCustomDialog';
+import { ListCustomDialog } from './customComponents/listCustomDialog';
 import { ListWithTasks, Task } from './types';
 import { Button } from "@/components/ui/button"
 import {
@@ -12,9 +15,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
 import { FileMinusIcon } from '@radix-ui/react-icons';
-
+import { ModeToggle } from './customComponents/darkmodeToggle';
+import './masonry.css';
 
 export default function Home() {
   const { data: lists, error } = useSWR<ListWithTasks[]>('/api/lists', fetchAllLists);
@@ -50,45 +53,55 @@ export default function Home() {
     mutate('/api/lists');
   }
 
+  const breakpointColumnsObj = {
+    default: 3,
+    1100: 2,
+    700: 1,
+    500: 1
+  };
+
   return (
     <div>
-      <CustomDialog
-        headerOfDialog="Add New List"
-        bodyOfDialog="Provide the name of the new list"
-        labelOfString="List Name"
+      <ListCustomDialog
         onSave={handleCreateList}
       />
-      {lists.map((list) => (
-        <Card key={list.id} className="w-[350px]">
-          <CardHeader>
-            <CardTitle>{list.name}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul>
-              {list.tasks.map((task) => (
-                <li key={task.id}>
-                  {task.description}
-                  <Button variant="destructive" size="icon" onClick={() => handleDeleteTaskFromList(list.name, task.id)}>
-                    <FileMinusIcon className="h-4 w-4" />
-                  </Button>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-          <CardFooter className="flex justify-between">
-            <CustomDialog
-              headerOfDialog="Add New Task"
-              bodyOfDialog="Provide the description for the task"
-              labelOfString="Task Description"
-              onSave={(value) => handleCreateTaskForList(list.name, value)}
-            />
-            <Button variant="destructive" onClick={() => handleDeleteList(list.name)}>
-              Delete List
-            </Button>
-          </CardFooter>
-        </Card>
-      ))}
+      <ModeToggle/>
+
+      <Masonry
+        breakpointCols={breakpointColumnsObj}
+        className="my-masonry-grid"
+        columnClassName="my-masonry-grid_column"
+      >
+        {lists.map((list) => (
+          <Card key={list.id} className="min-w-[350px]">
+            <CardHeader>
+              <CardTitle>{list.name}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul>
+                {list.tasks.map((task) => (
+                  <li key={task.id}>
+                    {task.description}
+                    <Button variant="destructive" size="icon" onClick={() => handleDeleteTaskFromList(list.name, task.id)}>
+                      <FileMinusIcon className="h-4 w-4" />
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+            <CardFooter className="flex justify-between">
+              <TaskCustomDialog
+                onSave={(value) => handleCreateTaskForList(list.name, value)}
+              />
+              <Button variant="destructive" onClick={() => handleDeleteList(list.name)}>
+                Delete List
+              </Button>
+            </CardFooter>
+          </Card>
+        ))}
+      </Masonry>
     </div>
   );
 }
+
 
