@@ -20,6 +20,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
+          <footer className="container flex flex-wrap items-center justify-center px-1 py-3 mx-auto  lg:justify-between">
+            <p>Created by Manik</p>
+          </footer>
         </ThemeProvider>
       </body>
     </html>
