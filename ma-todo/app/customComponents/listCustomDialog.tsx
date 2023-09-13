@@ -46,7 +46,12 @@ export function ListCustomDialog({ onSave }: CustomDialogProps) {
             </div>
             <DialogFooter>
                 <DialogTrigger asChild>
-                    <Button type="submit" onClick={() => onSave(inputValue)}>Save</Button>
+                <Button type="submit" onClick={() => {
+                    onSave(inputValue);
+                    setInputValue(''); 
+                }}>
+                    Save
+                </Button>
                 </DialogTrigger>
             </DialogFooter>
         </DialogContent>

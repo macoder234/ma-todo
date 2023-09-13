@@ -34,8 +34,7 @@ export function TaskCustomDialog({ onSave }: CustomDialogProps) {
                 Provide the description for the task
             </DialogDescription>
             </DialogHeader>
-            <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
+            <div className="grid gap-4 py-4 grid-cols-4 items-center">
                 <Label htmlFor="name" className="text-right">
                     Task Description
                 </Label>
@@ -47,10 +46,15 @@ export function TaskCustomDialog({ onSave }: CustomDialogProps) {
                     className="col-span-3" 
                 />
             </div>
-            </div>
+
             <DialogFooter>
                 <DialogTrigger asChild>
-                    <Button type="submit" onClick={() => onSave(inputValue)}>Save</Button>
+                    <Button type="submit" onClick={() => {
+                        onSave(inputValue);
+                        setInputValue(''); 
+                    }}>
+                        Save
+                    </Button>
                 </DialogTrigger>
             </DialogFooter>
         </DialogContent>
