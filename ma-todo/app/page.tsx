@@ -15,6 +15,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 import { FileMinusIcon } from '@radix-ui/react-icons';
 import { ModeToggle } from './customComponents/darkmodeToggle';
 import './masonry.css';
@@ -54,40 +63,55 @@ export default function Home() {
   }
 
   const breakpointColumnsObj = {
-    default: 3,
-    1100: 2,
-    700: 1,
-    500: 1
+    default: 5,
+    1850: 4,
+    1500: 3,
+    1150: 2,
+    750: 1
   };
 
   return (
-    <div>
-      <ListCustomDialog
-        onSave={handleCreateList}
-      />
-      <ModeToggle/>
-
+    <div className="p-3 gap-3">
       <Masonry
         breakpointCols={breakpointColumnsObj}
         className="my-masonry-grid"
         columnClassName="my-masonry-grid_column"
       >
+        <Card className="min-w-[350px] p-3 my-6">
+          <CardHeader>
+            <CardTitle>ToDo App</CardTitle>
+          </CardHeader>
+          <CardFooter className="flex justify-between">
+            <ListCustomDialog
+              onSave={handleCreateList}
+            />
+            <ModeToggle/>
+          </CardFooter>
+        </Card>
         {lists.map((list) => (
-          <Card key={list.id} className="min-w-[350px]">
+          <Card key={list.id} className="min-w-[350px] my-6">
             <CardHeader>
               <CardTitle>{list.name}</CardTitle>
             </CardHeader>
             <CardContent>
-              <ul>
+              <Table>
+              <TableBody>
                 {list.tasks.map((task) => (
-                  <li key={task.id}>
-                    {task.description}
-                    <Button variant="destructive" size="icon" onClick={() => handleDeleteTaskFromList(list.name, task.id)}>
-                      <FileMinusIcon className="h-4 w-4" />
-                    </Button>
-                  </li>
+                  <TableRow key={task.id}>
+                    <TableCell>
+                      {/* <CardDescription> */}
+                        {task.description}
+                      {/* </CardDescription> */}
+                    </TableCell>
+                    <TableCell className="float-right">
+                      <Button variant="destructive" size="icon" onClick={() => handleDeleteTaskFromList(list.name, task.id)}>
+                        <FileMinusIcon className="h-4 w-4" />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
                 ))}
-              </ul>
+                </TableBody>
+              </Table>
             </CardContent>
             <CardFooter className="flex justify-between">
               <TaskCustomDialog
