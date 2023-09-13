@@ -1,8 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/ma-todo/node_modules
-/ma-todo-backend/node_modules
+/todom/node_modules
+/todom-backend/node_modules
 /node_modules
 /.pnp
 .pnp.js
@@ -12,7 +12,7 @@
 
 # next.js
 /.next/
-ma-todo/.next
+todom/.next
 /out/
 
 # production
@@ -37,4 +37,4 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-ma-todo-backend/todo.db
+todom-backend/todo.db
