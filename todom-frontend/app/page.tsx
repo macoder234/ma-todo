@@ -27,12 +27,14 @@ import {
 import { FileMinusIcon } from '@radix-ui/react-icons';
 import { ModeToggle } from './customComponents/darkmodeToggle';
 import './masonry.css';
+import { Loading } from './customComponents/loading';
+import { Error } from './customComponents/error';
 
 export default function Home() {
   const { data: lists, error } = useSWR<ListWithTasks[]>('/api/lists', fetchAllLists);
 
-  if (error) return <div>Error loading data</div>;
-  if (!lists) return <div>Loading...</div>;
+  if (error) return <div><Error/></div>;
+  if (!lists) return <div><Loading/></div>;
 
   async function handleCreateList(value: string) {
     if (value) {
