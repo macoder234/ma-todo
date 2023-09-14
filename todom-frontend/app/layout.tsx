@@ -17,14 +17,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} flex flex-col min-h-screen`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
-          <footer className="container flex flex-wrap items-center justify-center px-1 py-3 mx-auto  lg:justify-between">
+          <div className="flex-grow">
+            {children}
+          </div>
+          <footer className="container flex flex-wrap items-center justify-center px-1 py-3 mx-auto lg:justify-between">
             <p>Created by Manik</p>
           </footer>
         </ThemeProvider>
       </body>
     </html>
-  )
+  )  
 }

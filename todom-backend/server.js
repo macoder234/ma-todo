@@ -21,6 +21,11 @@ app.get('/api/lists', (req, res) => {
       return res.status(500).json({ error: 'Internal Server Error' });
     }
 
+    // If no lists exist, return an empty array
+    if (!lists.length) {
+      return res.json([]);
+    }
+
     // Fetch tasks for each list
     const listsWithTasks = [];
 
@@ -38,6 +43,7 @@ app.get('/api/lists', (req, res) => {
     });
   });
 });
+
 
 // Create a new to-do list
 app.post('/api/lists', (req, res) => {

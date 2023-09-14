@@ -33,8 +33,8 @@ import { Error } from './customComponents/error';
 export default function Home() {
   const { data: lists, error } = useSWR<ListWithTasks[]>('/api/lists', fetchAllLists);
 
-  if (error) return <div><Error/></div>;
-  if (!lists) return <div><Loading/></div>;
+  if (error) return <Error/>;
+  if (typeof lists === 'undefined') return <Loading/>;
 
   async function handleCreateList(value: string) {
     if (value) {
@@ -90,6 +90,15 @@ export default function Home() {
             <ModeToggle/>
           </CardFooter>
         </Card>
+        {lists.length === 0 && (
+          <div className="text-center">
+            <p 
+              className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xl text-center"
+            >
+              You do not have any lists yet. Start by creating one!
+            </p>
+          </div>
+        )}
         {lists.map((list) => (
           <Card key={list.id} className="min-w-[350px] my-6">
             <CardHeader>
