@@ -25,7 +25,7 @@ app.get('/api/lists', (req, res) => {
     if (!lists.length) {
       return res.json([]);
     }
-
+    
     // Fetch tasks for each list
     const listsWithTasks = [];
 
