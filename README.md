@@ -15,6 +15,7 @@ A simple todo web application built with Next.js, Express.js, SQLite, and SWR.
 ## Description
 
 ToDoM is a web application that allows users to create and manage to-do lists with tasks. It provides a user-friendly interface for adding, updating, and deleting lists and tasks.
+![alt text](https://raw.githubusercontent.com/macoder234/todom/main/img/lists_dark_desktop.jpg)
 
 ## Features
 
